@@ -54,7 +54,7 @@ module "bastion" {
   is_public                = var.bastion_is_public
   shape                    = var.bastion_shape
   ssh_private_key          = sensitive(local.ssh_private_key) # to await cloud-init completion
-  ssh_public_key           = local.ssh_public_key
+  ssh_public_key           = local.ssh_authorized_keys
   subnet_id                = try(module.network.bastion_subnet_id, "") # safe destroy; validated in submodule
   timezone                 = var.timezone
   upgrade                  = var.bastion_upgrade

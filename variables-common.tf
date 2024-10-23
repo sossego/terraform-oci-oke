@@ -15,6 +15,9 @@ locals {
     ? try(base64decode(var.ssh_public_key), var.ssh_public_key)
     : coalesce(var.ssh_public_key_path, "none") != "none" ? file(var.ssh_public_key_path) : null
   )
+  ssh_authorized_keys = (
+    try(file(var.ssh_authorized_keys_file), null)
+  )
 }
 
 variable "state_id" {
@@ -57,5 +60,11 @@ variable "ssh_public_key" {
 variable "ssh_public_key_path" {
   default     = null
   description = "A path on the local filesystem to the SSH public key. Used to allow login for workers/bastion/operator with corresponding private key."
+  type        = string
+}
+
+variable "ssh_authorized_keys_file" {
+  default     = null
+  description = "A path on the local filesystem to the SSH authorized keys file. Used to allow login for bastion/operator with corresponding private key."
   type        = string
 }
